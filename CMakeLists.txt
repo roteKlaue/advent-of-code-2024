@@ -9,4 +9,8 @@ add_executable(advent_of_code main.c
         src/2/advent-of-code-2.c
         src/2/advent-of-code-2.h
         src/util/string.c
-        src/util/string.h)
+        src/util/string.h
+        src/util/file.c
+        src/util/file.h
+        src/3/advent-of-code-3.c
+        src/3/advent-of-code-3.h)

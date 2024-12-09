@@ -63,7 +63,7 @@ int **read_content(const char *filename, int *rows) {
 int advent_of_code_1_a() {
     int rows;
 
-    int **content = read_content("../input.txt", &rows);
+    int **content = read_content("../inputs/day-1.txt", &rows);
     bubble_sort(content[0], rows);
     bubble_sort(content[1], rows);
 
@@ -79,7 +79,7 @@ int advent_of_code_1_a() {
     return distance;
 }
 
-int count_occurences(const int content[], const int size, const int searchedFor) {
+int count_occurrences_1(const int content[], const int size, const int searchedFor) {
     int occurences = 0;
     for (int i = 0; i < size; ++i) {
         if (content[i] == searchedFor) {
@@ -91,11 +91,11 @@ int count_occurences(const int content[], const int size, const int searchedFor)
 
 int advent_of_code_1_b() {
     int rows;
-    int **content = read_content("../input.txt", &rows);
+    int **content = read_content("../inputs/day-1.txt", &rows);
 
     int similarity = 0;
     for (int i = 0; i < rows; ++i) {
-        similarity += content[0][i] * count_occurences(content[1], rows, content[0][i]);
+        similarity += content[0][i] * count_occurrences_1(content[1], rows, content[0][i]);
     }
 
     free(content[0]);

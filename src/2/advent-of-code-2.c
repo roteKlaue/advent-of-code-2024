@@ -3,73 +3,13 @@
 //
 
 #include "advent-of-code-2.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
+#include "../util/file.h"
 #include "../util/string.h"
 
-string **read_content_2(const char *filename, int *rows) {
-    if (filename == nullptr || rows == nullptr) return nullptr;
-
-    *rows = 0;
-    FILE *fp = fopen(filename, "r");
-    if (!fp) return nullptr;
-
-    string **lines = nullptr;
-    int capacity = 0;
-    constexpr int LINE_BUFFER_SIZE = 1024;
-    char buffer[LINE_BUFFER_SIZE];
-
-    while (fgets(buffer, LINE_BUFFER_SIZE, fp)) {
-        size_t len = strlen(buffer);
-        if (len > 0 && buffer[len - 1] == '\n') {
-            buffer[len - 1] = '\0';
-            len--;
-        }
-
-        string *line_str = string_new(buffer, len, 0);
-        if (line_str == nullptr) {
-            for (int i = 0; i < *rows; i++) {
-                string_free(lines[i]);
-            }
-            free(lines);
-            fclose(fp);
-            return nullptr;
-        }
-
-        if (*rows >= capacity) {
-            capacity = capacity == 0 ? 10 : capacity * 2;
-            string **new_lines = realloc(lines, capacity * sizeof(string *));
-            if (!new_lines) {
-                string_free(line_str);
-                for (int i = 0; i < *rows; i++) {
-                    string_free(lines[i]);
-                }
-                free(lines);
-                fclose(fp);
-                return nullptr;
-            }
-            lines = new_lines;
-        }
-
-        lines[*rows] = line_str;
-        (*rows)++;
-    }
-
-    fclose(fp);
-
-    if (*rows == 0) {
-        free(lines);
-        return nullptr;
-    }
-
-    return lines;
-}
+#include <stdlib.h>
 
 bool isArraySafe(const int *data, const int size) {
-    if (size < 2) return false;
+    if (data == nullptr || size < 2) return false;
 
     const bool direction = data[0] - data[1] > 0;
 
@@ -188,7 +128,7 @@ bool isSafeV2(const string *line) {
 
 int advent_of_code_2_a() {
     int rows, count = 0;
-    string **values = read_content_2("../input-2.txt", &rows);
+    string **values = read_file("../inputs/day-2.txt", &rows);
 
     for (int i = 0; i < rows; i++) {
         if (isSafe(values[i])) count++;
@@ -200,7 +140,7 @@ int advent_of_code_2_a() {
 
 int advent_of_code_2_b() {
     int rows, count = 0;
-    string **values = read_content_2("../input-2.txt", &rows);
+    string **values = read_file("../inputs/day-2.txt", &rows);
 
     for (int i = 0; i < rows; i++) {
         if (isSafeV2(values[i])) count++;
